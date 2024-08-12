@@ -2,7 +2,7 @@
 import streamlit as st
 
 def setup():
-    col1, col2 = st.colums(2)
+    col1, col2 = st.columns(2)
     with col1:
         st.subheader("col")
     with col2:
