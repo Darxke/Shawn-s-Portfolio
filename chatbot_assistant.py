@@ -1,3 +1,7 @@
+import streamlit as st
+import openai
+import time
+
 # Streamlit page config
 st.set_page_config(page_title="My AI Chatbot", page_icon="🤖", layout="wide")
 
@@ -13,8 +17,8 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 # Replace these with your own Assistant ID and Thread ID
-ASSISTANT_ID = 'asst_nbcgjebJKUqPXeI8Udu8eDfW'
-THREAD_ID = 'thread_suEizPV8FVgbpFKPpJs013Xq'
+ASSISTANT_ID = 'asst_G9g1anGONTUaOpJaBXqf81Y7'
+THREAD_ID = 'thread_fRMKtlBtM7eLaCooOYlIOYaC'
 
 def wait_for_run_complete(client, thread_id, run_id):
     while True:
