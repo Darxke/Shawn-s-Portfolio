@@ -69,9 +69,10 @@ def main():
 
     # Main chat interface
     st.title("🤖 My AI Chatbot")
-
-    # Initialize session state
-
-    # Replace these with your own Assistant ID and Thread ID
+    if api_key:
+        st.session_state.openai_api_key = api_key
+    #Call on streamlit assistant function
+    streamlit_assistant()
+    
 if __name__ == '__main__':
     main()
