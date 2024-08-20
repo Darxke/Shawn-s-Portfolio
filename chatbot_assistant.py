@@ -5,7 +5,7 @@ import time
 ASSISTANT_ID = 'asst_G9g1anGONTUaOpJaBXqf81Y7'
 THREAD_ID = 'thread_fRMKtlBtM7eLaCooOYlIOYaC'
 ASSISTANTS_MODE = {
-        'Beginner': ''' Give them the first letter of the name '''
+        'Beginner': ''' Give them the first letter of the name ''',
         'Advanced': '''Only give them three lives and only give them 5 hints max once they lose than they will have to restart'''
 
 
