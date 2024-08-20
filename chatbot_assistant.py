@@ -38,10 +38,10 @@ def get_assistant_response(client, user_input):
     return messages.data[0].content[0].text.value
 
 def streamlit_assistant():
-    mode = st.selectbox("Please select a gamemode", list(ASSISTANT_MODES.keys()))
-    st.write("Current mode: {mode}")
+    mode = st.selectbox("Please select a gamemode", list(ASSISTANTS_MODE.keys()))
+    st.write(f"Current mode: {mode}")
     if "messages" not in st.session_state:
-        st.session_state.messages = {mode: [] for mode in ASSISTANT_MODES}
+        st.session_state.messages = {mode: [] for mode in ASSISTANTS_MODE}
 
     for messages in st.session_state.messages[mode]:
         with st.message(message['role']):
