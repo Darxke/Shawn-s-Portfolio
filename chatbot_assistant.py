@@ -2,24 +2,14 @@ import streamlit as st
 import openai
 import time
 
-# Streamlit page config
-st.set_page_config(page_title="My AI Chatbot", page_icon="🤖", layout="wide")
-
-# Sidebar for API key input
-st.sidebar.title("Setup")
-api_key = st.sidebar.text_input("Enter your OpenAI API Key", type="password")
-
-# Main chat interface
-st.title("🤖 My AI Chatbot")
-
-# Initialize session state
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-# Replace these with your own Assistant ID and Thread ID
 ASSISTANT_ID = 'asst_G9g1anGONTUaOpJaBXqf81Y7'
 THREAD_ID = 'thread_fRMKtlBtM7eLaCooOYlIOYaC'
+ASSISTANTS_MODE = {
+        'Beginner': ''' Give them the first letter of the name '''
+        'Advanced': '''Only give them three lives and only give them 5 hints max once they lose than they will have to restart'''
 
+
+    }
 def wait_for_run_complete(client, thread_id, run_id):
     while True:
         run = client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run_id)
@@ -47,23 +37,40 @@ def get_assistant_response(client, user_input):
     # Return the latest assistant message
     return messages.data[0].content[0].text.value
 
-# Display chat messages
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+def streamlit_assistant():
+    mode = st.selectbox("Please select a gamemode", list(ASSISTANT_MODES.keys()))
+    st.write("Current mode: {mode}")
+    if "messages" not in st.session_state:
+        st.session_state.messages = {mode: [] for mode in ASSISTANT_MODES}
 
-# Chat input
-if api_key:
-    client = openai.OpenAI(api_key=api_key)
-    prompt = st.chat_input("Ask me anything!")
-    if prompt:
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
-        with st.chat_message("assistant"):
+    for messages in st.session_state.messages[mode]:
+        with st.message(message['role']:
+            st.markdown(message['content'])
+
+    if prompt := st.chat_input(f"Ask the {mode} Assistant about Brawl Stars."):
+        st.session_state.messages[mode].appened({'role': 'user', 'content': prompt})
+        st.markdown(prompt)
+
+    if 'open_api_key' in st.session_state and st.session_state.openai_api_key:
+        client = openai.OpenAI(api_key=st.session_state.openai_api_key)
+         with st.chat_message("assistant"):
             message_placeholder = st.empty()
-            full_response = get_assistant_response(client, prompt)
+            full_response = get_assistant_response(client, prompt, mode)
             message_placeholder.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": full_response})
-else:
-    st.warning("Please enter your OpenAI API key in the sidebar to start the chat.")
+def main():
+    # Streamlit page config
+    st.set_page_config(page_title="My AI Chatbot", page_icon="🤖", layout="wide")
+
+    # Sidebar for API key input
+    st.sidebar.title("Setup")
+    api_key = st.sidebar.text_input("Enter your OpenAI API Key", type="password")
+
+    # Main chat interface
+    st.title("🤖 My AI Chatbot")
+
+    # Initialize session state
+
+    # Replace these with your own Assistant ID and Thread ID
+if __name__ == '__main__':
+    main()
