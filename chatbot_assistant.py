@@ -44,16 +44,17 @@ def streamlit_assistant():
         st.session_state.messages = {mode: [] for mode in ASSISTANT_MODES}
 
     for messages in st.session_state.messages[mode]:
-        with st.message(message['role']:
+        with st.message(message['role']):
             st.markdown(message['content'])
 
     if prompt := st.chat_input(f"Ask the {mode} Assistant about Brawl Stars."):
         st.session_state.messages[mode].appened({'role': 'user', 'content': prompt})
-        st.markdown(prompt)
+        with st.chat_message('urser'):
+            st.markdown(prompt)
 
     if 'open_api_key' in st.session_state and st.session_state.openai_api_key:
         client = openai.OpenAI(api_key=st.session_state.openai_api_key)
-         with st.chat_message("assistant"):
+        with st.chat_message("assistant"):
             message_placeholder = st.empty()
             full_response = get_assistant_response(client, prompt, mode)
             message_placeholder.markdown(full_response)
